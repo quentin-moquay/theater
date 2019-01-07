@@ -46,8 +46,14 @@ character "" color "magenta"
 // Sadly we can't write : character "" color "magenta" says "hello"
 // but you can write this
 character("").color("magenta").says("hello")
+
 // well not very elegant I know...
-// That's why it's more simple to affect character result to local variable !
+// but remember as explains in basics, earlier we declared character with color magenta
+// so now, we don't need to specify it anymore
+character "" says "hello" // will output in magenta
+
+
+// You can also affect character result to local variable !
 narrator = character "" color "magenta"
 
 // Our character can talks or thinks like everyone else
