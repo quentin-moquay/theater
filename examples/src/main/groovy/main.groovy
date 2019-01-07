@@ -8,7 +8,7 @@ TheaterConst.historyDirectory = "./"
 TheaterConst.locale = "en_EN"
 
 // which chapter do you want to read
-String chapter = "stories/alien_dialog_api/alien_dialog_api"
+String chapter = "api/basics"
 
 while(chapter) {
     // Reading the book (localization)

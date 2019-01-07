@@ -1,14 +1,12 @@
 package stories
 
-import theater.engine.TheaterConst
-
 import static theater.engine.Theater.*
 import static theater.engine.TheaterConst.*
 
 // no localization
-TheaterConst.localizationEnabled = false
-TheaterConst.pictureExtension = ""
-TheaterConst.soundExtension = ""
+localizationEnabled = false
+pictureExtension = ""
+soundExtension = ""
 
 narrator = character "" color "black"
 
@@ -60,4 +58,4 @@ dallas << "I saw it."
 dallas << "Yellow light for my eyes only..."
 dallas << "Now, everybody hit their stations."
 
-TheaterConst.END_OF_GAME
+END_OF_GAME

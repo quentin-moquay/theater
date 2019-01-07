@@ -21,6 +21,11 @@ class Theater {
 	private static Map<String, ParagraphDsl> chapters = [:]
 	private static Map<String, Dialog> chapterDialogs = [:]
 	private static Map<String, SceneDsl> scenes = [:]
+	private static Map<String, BackgroundDsl> backgrounds = [:]
+	private static Map<String, PictureDsl> pictures = [:]
+	private static Map<String, AnimationDsl> animations = [:]
+	private static Map<String, MusicDsl> musics = [:]
+	private static Map<String, SoundDsl> sounds = [:]
 
 	// Game engine can request this Map for save purpose
 	static Map<String, Integer> answers = [:]
@@ -73,7 +78,8 @@ class Theater {
 		dialogue.read(characters)
 	}
 
-	static int answer(ParagraphDsl choice) {
+	static int answer(String name) {
+		ParagraphDsl choice = paragraph(name)
 		int value = choice.lines.indexOf(EngineCommunication.ask(choice))
 		answers.put(choice.key,value)
 		value
@@ -115,29 +121,29 @@ class Theater {
 	static void remove(File o) {
 		EngineCommunication.remove o
 	}
-	
+
 	static void play(Scene o) {
 		EngineCommunication.play o
 	}
 
 	static SoundDsl sound(String name) {
-		new SoundDsl(name)
+		createOfGet(sounds, name, SoundDsl.class)
 	}
 
 	static MusicDsl music(String name) {
-		new MusicDsl(name)
+		createOfGet(musics, name, MusicDsl.class)
 	}
 
 	static PictureDsl picture(String name) {
-		new PictureDsl(name)
+		createOfGet(pictures, name, PictureDsl.class)
 	}
 
 	static BackgroundDsl background(String name) {
-		new BackgroundDsl(name)
+		createOfGet(backgrounds, name, BackgroundDsl.class)
 	}
 
 	static AnimationDsl animation(String name) {
-		new AnimationDsl(name)
+		createOfGet(animations, name, AnimationDsl.class)
 	}
 
 	static void flag(String key, def value) {

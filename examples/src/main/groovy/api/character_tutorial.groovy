@@ -1,13 +1,10 @@
 package api
 
-import theater.engine.TheaterConst
-
 import static theater.engine.Theater.*
-import static theater.engine.Syntax.*
 import static theater.engine.TheaterConst.*
 
 // no localization
-TheaterConst.localizationEnabled = false
+localizationEnabled = false
 
 // With this, your new character "Me" is registered in Theater memory
 character "me"
@@ -69,4 +66,4 @@ narrator << "Something"
 narrator.thinks "Something"
 narrator >> "Something"
 
-TheaterConst.END_OF_GAME
+END_OF_GAME
