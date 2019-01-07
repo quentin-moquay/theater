@@ -1,0 +1,113 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+		jcenter()
+	}
+}
+
+apply plugin: "groovy"
+
+allprojects {
+	apply plugin: "eclipse"
+	apply plugin: "idea"
+
+	version = '1.0.0'
+	sourceCompatibility = 1.6
+	sourceSets {
+		main {
+			groovy {
+				srcDirs = ['src/main/groovy']
+			}
+		}
+	}
+	
+	ext {
+		appName = "theater"
+		groovyVersion = "2.4.8"
+	}
+
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+		maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+	}
+
+}
+
+project(":settings") {
+	apply plugin: "groovy"
+	sourceCompatibility = 1.6
+	
+	dependencies {
+		compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+	}
+}
+
+project(":object") {
+	apply plugin: "groovy"
+	sourceCompatibility = 1.6
+
+	dependencies {
+        compile project(":settings")
+		compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+	}
+}
+
+project(":communication") {
+	apply plugin: "groovy"
+	sourceCompatibility = 1.6
+
+	dependencies {
+        compile project(":settings")
+		compile project(":object")
+		compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+	}
+}
+
+project(":dsl") {
+	apply plugin: "groovy"
+	sourceCompatibility = 1.6
+
+	dependencies {
+        compile project(":settings")
+		compile project(":object")
+		compile project(":communication")
+		compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+	}
+}
+
+project(":examples") {
+	apply plugin: "groovy"
+
+	dependencies {
+		compile project(":settings")
+		compile project(":object")
+		compile project(":communication")
+		compile project(":dsl")
+		compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+	}
+}
+
+apply plugin: "groovy"
+
+dependencies {
+    compile project(":settings")
+	compile project(":object")
+	compile project(":communication")
+	compile project(":dsl")
+	compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+}
+
+task copyJars(type: Copy) {
+	from subprojects.collect { it.tasks.withType(Jar) }
+	into "$buildDir/allJars"
+}
+
+def mainProjects = ['settings',':object',':communication',':dsl']
+task oneJar( type: Jar , dependsOn: mainProjects.collect{ it+":compileGroovy"}) {
+	baseName = 'theater-all'
+	from files(mainProjects.collect{ project(it).sourceSets.main.output })
+}
